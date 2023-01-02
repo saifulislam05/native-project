@@ -1,128 +1,77 @@
-import { View, Text, FlatList, StyleSheet, Image } from "react-native";
-import React, { useState, useEffect } from "react";
+import { StyleSheet, Text, View,Image,FlatList,Br } from 'react-native'
+import React from 'react'
+
+import StudentsData from '../../src/api/StudentsData'
 
 const UserData = () => {
-  const [isLoaded, setIsLoaded] = useState(true);
-  const [myData, setMyData] = useState([]);
 
-  const getUserData = async () => {
-    try {
-      const response = await fetch(
-        "https://thapatechnical.github.io/userapi/users.json"
-      );
-      const realData = await response.json();
-      setMyData(realData);
-      setIsLoaded(false);
-      // console.log(realData);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  useEffect(() => getUserData(), []);
-
-  // render the students cards
-  const showUserData = ({ item }) => {
+  const studentCard = ({ item }) => {
     return (
-      <View style={styles.card}>
-        <View style={styles.imgContainer}>
-          <Image style={styles.imgStyle} source={{ uri: item.image }} />
-        </View>
-
-        <View>
-          <View style={styles.bioDataContainer}>
-            <Text style={styles.bioData}> Bio-Data </Text>
-            <Text style={styles.idNumber}>
-              {item.id < 10 ? `#0${item.id}` : `#{item.id}`}
-            </Text>
+      <View style={styles.studentCard}>
+        <View style={styles.studentContainer}>
+          <View style={styles.imgContainer}>
+            <Image
+              style={styles.img}
+              source={{
+                uri: item.image,
+              }}
+            />
           </View>
-
-          <View style={styles.mainContain}>
-            <Text style={styles.myName}> Name: {item.name} </Text>
-            <Text style={styles.myName}> email: {item.email} </Text>
-            <Text style={styles.myName}> mobile: {item.mobile} </Text>
+          <View style={styles.content}>
+            <Text style={styles.name}>Name:-{item.name}</Text>
+            <Text style={styles.name}>Roll No. - {item.id}</Text>
+            <Text style={styles.email}>Email:-{item.email}</Text>
+            <Text style={styles.website}>Website:-{item.website}</Text>
           </View>
         </View>
       </View>
     );
-  };
+}
 
   return (
-    <View>
+    <View style={styles.mainWrapper}>
       <Text style={styles.mainHeader}>List of Students</Text>
       <FlatList
-        keyExtractor={(item) => item.id}
-        data={myData}
-        renderItem={showUserData}
-        horizontal
-        showsHorizontalScrollIndicator={false}
+        keyExtrator={(item) => item.id}
+        data={StudentsData}
+        renderItem={studentCard}
       />
+
+   
     </View>
-  );
-};
+    
+  )
+}
+
+export default UserData
 
 const styles = StyleSheet.create({
-  mainContainer: {
-    width: "100%",
-    minHeight: "100%",
-    paddingVertical: 50,
-    backgroundColor: "#ebedee",
+  mainWrapper: {
+    paddingHorizontal: 10,
   },
-  card: {
-    width: 250,
-    height: 350,
-    backgroundColor: "#fff",
-    borderRadius: 5,
-    margin: 20,
+  studentCard: {
+    marginVertical: 10,
+    padding:10,
+    elevation: 5,
+    shadowColor: "#000",
   },
-  bioDataContainer: {
-    width: "100%",
+  studentContainer: {
+    padding: 5,
     display: "flex",
     flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "#353535",
-    paddingVertical: 10,
-    fontFamily: "JosefinSans_400Regular",
-  },
-  idNumber: {
-    fontSize: 20,
-    color: "rgba(255, 255, 255, 0.5)",
-    fontFamily: "JosefinSans_400Regular",
-    paddingRight: 10,
-  },
-  bioData: {
-    fontSize: 30,
-    color: "#fff",
-    fontFamily: "JosefinSans_400Regular",
-  },
-  mainHeader: {
-    fontSize: 30,
-    color: "#a18ce5",
-    textAlign: "center",
-    fontFamily: "JosefinSans_400Regular",
   },
   imgContainer: {
-    padding: 10,
+    marginRight: 8,
   },
-  imgStyle: {
-    width: "100%",
-    height: 180,
+  img: {
+    width: 80,
+    height: 100,
+    borderRadius: 10,
+    // aspectRatio: 1
   },
-  mainContain: {
-    padding: 10,
-    backgroundColor: "#353535",
-    borderBottomLeftRadius: 5,
-    borderBottomRightRadius: 5,
-  },
-  myName: {
-    fontSize: 14,
-    color: "#fff",
-    marginBottom: 10,
-    alignSelf: "flex-start",
-    textTransform: "capitalize",
-    fontFamily: "JosefinSans_400Regular",
-  },
+  content: {
+    paddingHorizontal: 5,
+    overflow: 'hidden',
+    
+  }
 });
-
-export default UserData;
