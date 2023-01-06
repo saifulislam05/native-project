@@ -30,11 +30,12 @@ const UserData = () => {
 
   return (
     <View style={styles.mainWrapper}>
-      <Text style={styles.mainHeader}>List of Students</Text>
+      <Text style={styles.mainHeader}>List of Students :-</Text>
       <FlatList
         keyExtrator={(item) => item.id}
         data={StudentsData}
         renderItem={studentCard}
+        showsVerticalScrollIndicator={false}
       />
 
    
@@ -46,14 +47,18 @@ const UserData = () => {
 export default UserData
 
 const styles = StyleSheet.create({
-  mainWrapper: {
-    paddingHorizontal: 10,
+  mainHeader: {
+    fontSize:20,
   },
   studentCard: {
-    marginVertical: 10,
+
+    margin: 10,
     padding:10,
-    elevation: 5,
+    elevation: 30,
     shadowColor: "#000",
+    backgroundColor: "#ffffff",
+    borderRadius: 10,
+    overflow:'hidden'
   },
   studentContainer: {
     padding: 5,
